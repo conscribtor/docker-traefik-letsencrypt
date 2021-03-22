@@ -1,0 +1,33 @@
+services:
+  traefik:
+    image: traefik
+    environment:
+      - TRAEFIK_LOG_LEVEL=${TRAEFIK_LOG_LEVEL:-INFO}
+      - TRAEFIK_API_DASHBOARD=true
+      - TRAEFIK_PROVIDERS_DOCKER=true
+      - TRAEFIK_PROVIDERS_DOCKER_EXPOSEDBYDEFAULT=false
+      - TRAEFIK_PROVIDERS_DOCKER_DEFAULTRULE=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN:?'DOMAIN' environment variable must be set}`)
+      - TRAEFIK_ENTRYPOINTS_web_ADDRESS=:80
+      - TRAEFIK_ENTRYPOINTS_websecure_ADDRESS=:443
+      - TRAEFIK_ENTRYPOINTS_web_HTTP_REDIRECTIONS_ENTRYPOINT_TO=websecure
+      - TRAEFIK_CERTIFICATESRESOLVERS_letsencrypt_ACME_TLSCHALLENGE=true
+      - TRAEFIK_CERTIFICATESRESOLVERS_letsencrypt_ACME_CASERVER=https://acme-staging-v02.api.letsencrypt.org/directory
+      - TRAEFIK_CERTIFICATESRESOLVERS_letsencrypt_ACME_EMAIL=${ACME_EMAIL:?'ACME_EMAIL' environment variable must be set}
+      - TRAEFIK_CERTIFICATESRESOLVERS_letsencrypt_ACME_STORAGE=/letsencrypt/acme.json
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./letsencrypt:/letsencrypt
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.dashboard.service=api@internal
+      - traefik.http.middlewares.auth.digestauth.users=${DASHBOARD_DIGESTAUTH_TOKEN:-traefik:traefik:2ca9604dccc5a329d8354f640f02f1b1}
+      - traefik.http.routers.dashboard.middlewares=auth
+      - traefik.http.routers.dashboard.tls.certresolver=letsencrypt
+    networks:
+      - reverse_proxy
+networks:
+  reverse_proxy:
+    name: reverse_proxy

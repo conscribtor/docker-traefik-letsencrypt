@@ -1,0 +1,7 @@
+services:
+  traefik:
+    environment:
+      - TRAEFIK_LOG_LEVEL=${TRAEFIK_LOG_LEVEL:-WARN}
+      - TRAEFIK_CERTIFICATESRESOLVERS_letsencrypt_ACME_CASERVER=https://acme-v02.api.letsencrypt.org/directory
+    labels:
+      - traefik.http.middlewares.auth.digestauth.users=${DASHBOARD_DIGESTAUTH_TOKEN:?'DASHBOARD_DIGESTAUTH_TOKEN' environment variable must be set}
