@@ -63,7 +63,7 @@ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 By default, containers running on the same _Docker Engine_ are neither connected to the same docker network as the
 `traefik` service, nor are they discovered if they are. Containers must be connected to the same network
 (`reverse_proxy`) and be labeled with `traefik.enable=true` and 
-`traefik.http.routers.<routername>.tls.certresolver=letsencrypt` in order to be served trough the `traefik` service with
+<nobr>`traefik.http.routers.<routername>.tls.certresolver=letsencrypt`</nobr> in order to be served trough the `traefik` service with
 a _Let's Encrypt_ certificate.
 
 
