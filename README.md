@@ -14,7 +14,7 @@ In this project the
 [environment variable based static configuration](https://doc.traefik.io/traefik/reference/static-configuration/env/)
 is set within the [`environment` section](https://docs.docker.com/compose/compose-file/compose-file-v3/#environment) of
 the `traefik` service. The dynamic configuration is set within the
-[`labels` section](https://docs.docker.com/compose/compose-file/compose-file-v3/#labels) of the services the using
+[`labels` section](https://docs.docker.com/compose/compose-file/compose-file-v3/#labels) of services using the
 reverse proxy.
 
 ## Setup
@@ -43,7 +43,7 @@ configurations.
 
 When using `docker-compose.prod.yml`, credentials for the
 [_Traefik Dashboard_](https://doc.traefik.io/traefik/operations/dashboard/) must be set explicitly. The `traefik`
-service is configured with the [_DigestAuth_](https://doc.traefik.io/traefik/middlewares/digestauth/) middleware for
+service is configured with the [_DigestAuth_](https://doc.traefik.io/traefik/middlewares/http/digestauth/) middleware for
 authentification. The digest token can be generated using 
 [_htdigest_](https://httpd.apache.org/docs/2.4/programs/htdigest.html) and must be passed to `docker-compose` via the
 `DASHBOARD_DIGESTAUTH_TOKEN` environment variable:
