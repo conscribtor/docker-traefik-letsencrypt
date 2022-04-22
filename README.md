@@ -44,8 +44,7 @@ configurations.
 When using `docker-compose.prod.yml`, credentials for the
 [_Traefik Dashboard_](https://doc.traefik.io/traefik/operations/dashboard/) must be set explicitly. The `traefik`
 service is configured with the [_DigestAuth_](https://doc.traefik.io/traefik/middlewares/http/digestauth/) middleware for
-authentification. The digest token can be generated using 
-[_htdigest_](https://httpd.apache.org/docs/2.4/programs/htdigest.html) and must be passed to `docker-compose` via the
+authentification. The digest token can be generated using [_htdigest_](https://httpd.apache.org/docs/2.4/programs/htdigest.html), using the realm `traefik` and must be passed to `docker-compose` via the
 `DASHBOARD_DIGESTAUTH_TOKEN` environment variable:
 
 ```bash
