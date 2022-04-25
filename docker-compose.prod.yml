@@ -1,5 +1,6 @@
 services:
   traefik:
+    restart: always
     environment:
       - TRAEFIK_LOG_LEVEL=${TRAEFIK_LOG_LEVEL:-WARN}
       - TRAEFIK_CERTIFICATESRESOLVERS_letsencrypt_ACME_CASERVER=https://acme-v02.api.letsencrypt.org/directory
